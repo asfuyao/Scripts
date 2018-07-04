@@ -1,0 +1,11 @@
+declare 游标名 cursor for
+select 字段1,字段2 from 表名
+open 游标名
+fetch next from 游标名 into 变量1,变量2
+while @@fetch_status = 0
+begin
+  处理过程
+  fetch next from 游标名 into 变量1,变量2
+end
+close 游标名
+deallocate 游标名
