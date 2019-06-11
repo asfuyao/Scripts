@@ -1,0 +1,40 @@
+{
+  "inbounds": [
+    {
+      "port": 1080,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "domainOverride": ["tls","http"],
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "xwinds.top",
+            "port": 443,
+            "users": [
+              {
+                "id": "2b22dc4a-165d-41b9-b859-763cf7534860",
+                "alterId": 1
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "wsSettings": {
+          "path": "/c082e9aa-df06-44ab-846f-8d339b05e72f"
+        }
+      }
+    }
+  ]
+}
