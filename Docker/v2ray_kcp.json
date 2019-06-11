@@ -1,0 +1,21 @@
+{
+  "inbound": {
+    "port": 16824, 
+    "protocol": "vmess",    
+    "settings": {
+      "clients": [
+        {
+          "id": "4760edfc-0f69-11e9-a8e9-000c2916b469",  
+          "alterId": 75
+        }
+      ]
+    },
+    "streamSettings": {
+        "network": "kcp"
+    }
+  },
+  "outbound": {
+    "protocol": "freedom",  
+    "settings": {}
+  }
+}

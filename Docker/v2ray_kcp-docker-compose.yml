@@ -1,0 +1,11 @@
+version: "2"
+services:
+  v2ray_kcp:
+    image: v2ray/official
+    container_name: v2ray_kcp
+    volumes:
+      - /home/fuyao/v2ray_kcp.json:/etc/v2ray/config.json
+    ports:
+      - 16824:16824
+    command: v2ray -config=/etc/v2ray/config.json
+    restart: unless-stopped

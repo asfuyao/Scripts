@@ -1,0 +1,12 @@
+version: "2"
+services:
+  kcptun:
+    image: xtaci/kcptun
+    container_name: kcptun
+    volumes:
+      - /home/fuyao/kcptun_server.json:/etc/kcptun_server.json
+    ports:
+      - 18548:8388
+      - 18548:8388/udp
+    command: server -c /etc/kcptun_server.json
+    restart: unless-stopped
