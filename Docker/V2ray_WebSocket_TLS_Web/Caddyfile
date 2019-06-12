@@ -1,7 +1,0 @@
-xwinds.top {
-  log ./caddy.log
-  proxy /c082e9aa-df06-44ab-846f-8d339b05e72f v2ray:8002 {
-    websocket
-    header_upstream -Origin
-  }
-}
