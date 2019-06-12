@@ -1,6 +1,6 @@
 {
     "listen": ":29900",
-    "target": "185.239.69.118:18548",
+    "target": "127.0.0.1:18548",
     "key": "QgdxRYtd",
     "crypt": "aes",
     "mode": "fast2",
