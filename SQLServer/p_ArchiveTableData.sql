@@ -5,15 +5,15 @@
   *Author:
   *Version:      1.00
   *Date:         2019-05-20
-  *Description:  ´´½¨ÔÂ±í¹éµµÊý¾Ý
+  *Description:  åˆ›å»ºæœˆè¡¨å½’æ¡£æ•°æ®
   *Others:
   *Function List:
   *History:
 
 *******************************************************************************/
 ALTER PROCEDURE [dbo].[p_ArchiveTableData]
-  @TableNameBase sysname, --±íÃû
-  @ArchiveDate   DATE --¹éµµÈÕÆÚ£¬¹éµµÉè¶¨ÈÕÆÚÖ®Ç°µÄÊý¾Ý
+  @TableNameBase sysname, --è¡¨å
+  @ArchiveDate   DATE --å½’æ¡£æ—¥æœŸï¼Œå½’æ¡£è®¾å®šæ—¥æœŸä¹‹å‰çš„æ•°æ®
 AS
 BEGIN
   SET NOCOUNT ON;
@@ -25,20 +25,20 @@ BEGIN
   DECLARE @object_id INT;
   DECLARE @t_sqlstr NVARCHAR(MAX) = N'';
   DECLARE @i_sqlstr NVARCHAR(MAX) = N'';
-  DECLARE @i_column NVARCHAR(MAX) = N''; --ÁÐÃû¼¯ºÏ£¬¶ººÅ·Ö¸ô
+  DECLARE @i_column NVARCHAR(MAX) = N''; --åˆ—åé›†åˆï¼Œé€—å·åˆ†éš”
   DECLARE @d_sqlstr NVARCHAR(MAX) = N'';
   DECLARE @SaveDataMinMonths INT = 1;
-  --Êý¾Ý¹éµµºó×îÉÙ±£Áô¼¸¸öÔÂµÄÊý¾Ý
+  --æ•°æ®å½’æ¡£åŽæœ€å°‘ä¿ç•™å‡ ä¸ªæœˆçš„æ•°æ®
 
-  --ÉùÃ÷´íÎóÏà¹Ø±äÁ¿
-  DECLARE @ErrorCode INT; --´íÎó´úÂë
-  DECLARE @ErrorSeverity INT; --´íÎó¼¶±ð
-  DECLARE @ErrorState INT; --´íÎó×´Ì¬
+  --å£°æ˜Žé”™è¯¯ç›¸å…³å˜é‡
+  DECLARE @ErrorCode INT; --é”™è¯¯ä»£ç 
+  DECLARE @ErrorSeverity INT; --é”™è¯¯çº§åˆ«
+  DECLARE @ErrorState INT; --é”™è¯¯çŠ¶æ€
   DECLARE @ErrorText NVARCHAR(500);
 
-  --´íÎóÄÚÈÝ
+  --é”™è¯¯å†…å®¹
 
-  --»ñÈ¡±í¶ÔÏóID
+  --èŽ·å–è¡¨å¯¹è±¡ID
   SELECT @object_id = o.[object_id]
   FROM   sys.objects o WITH( NOWAIT )
   JOIN   sys.schemas s WITH( NOWAIT )ON o.[schema_id] = s.[schema_id]
@@ -50,14 +50,14 @@ BEGIN
   FROM   dbo.qcmescelldata
   WHERE  createdatetime > @ArchiveDate;
 
-  --²âÊÔÊý¾Ý
+  --æµ‹è¯•æ•°æ®
   --SELECT @MinDateTime = '2017-02-01', @MaxDateTime = '2017-12-30';
   SELECT @DiffMonth = DATEDIFF(MONTH, @MinDateTime, @MaxDateTime);
 
   SELECT @MinDateTime, @MaxDateTime, @DiffMonth;
 
   BEGIN TRY
-    --¿ªÊ¼ÊÂÎñ
+    --å¼€å§‹äº‹åŠ¡
     BEGIN TRAN;
 
     WHILE( @DiffMonth >= 0 )
@@ -65,7 +65,7 @@ BEGIN
       SET @TableName = @TableNameBase
                        + REPLACE(CONVERT(CHAR(7), DATEADD(MONTH, @DiffMonth, @MinDateTime), 120), '-', '');
 
-      --ÅÐ¶ÏÊÇ·ñ´æÔÚ¶ÔÓ¦µÄÔÂ±í£¬Èç¹ûÃ»ÓÐ¾ÍÒÑ»ù´¡±íÎª²Î¿¼´´½¨±í½á¹¹£¬ÐÂ½á¹¹²»ÉèÖÃ×ÔÔö¡¢²»Ìí¼ÓÄ¬ÈÏÖµ
+      --åˆ¤æ–­æ˜¯å¦å­˜åœ¨å¯¹åº”çš„æœˆè¡¨ï¼Œå¦‚æžœæ²¡æœ‰å°±å·²åŸºç¡€è¡¨ä¸ºå‚è€ƒåˆ›å»ºè¡¨ç»“æž„ï¼Œæ–°ç»“æž„ä¸è®¾ç½®è‡ªå¢žã€ä¸æ·»åŠ é»˜è®¤å€¼
       IF NOT EXISTS ( SELECT *
                       FROM   sys.sysobjects
                       WHERE  name = @TableName
@@ -76,7 +76,7 @@ BEGIN
         PRINT ( @t_sqlstr );
       END;
 
-      --²úÉúÊý¾Ý¹éµµÓï¾ä
+      --äº§ç”Ÿæ•°æ®å½’æ¡£è¯­å¥
       SET @i_sqlstr = N' INSERT INTO dbo.' + @TableName + N' (';
       SET @i_column = ( SELECT '' + name + ', '
                         FROM   sys.syscolumns
@@ -91,7 +91,7 @@ BEGIN
 
       PRINT @i_sqlstr;
 
-      --²úÉúÉ¾³ý¹éµµºóÊý¾ÝµÄÓï¾ä
+      --äº§ç”Ÿåˆ é™¤å½’æ¡£åŽæ•°æ®çš„è¯­å¥
       SET @d_sqlstr = N' DELETE FROM dbo.' + @TableNameBase;
       SET @d_sqlstr = @d_sqlstr + N' WHERE createdatetime>''' + CONVERT(NVARCHAR(20), @MinDateTime, 120)
                       + N''' and CONVERT(NCHAR(7),createdatetime,120)='''
@@ -102,14 +102,14 @@ BEGIN
       SET @DiffMonth = @DiffMonth - 1;
     END;
 
-    --Ìá½»ÊÂÎñ
+    --æäº¤äº‹åŠ¡
     COMMIT TRAN;
 
-    --·µ»Ø0
+    --è¿”å›ž0
     RETURN 0;
   END TRY
   BEGIN CATCH
-    --»Ø¹öÊÂÎñ
+    --å›žæ»šäº‹åŠ¡
     ROLLBACK TRAN;
 
     SET @ErrorCode = ERROR_NUMBER();
@@ -117,7 +117,7 @@ BEGIN
     SET @ErrorState = ERROR_STATE();
     SET @ErrorText = ERROR_MESSAGE();
 
-    --Å×³ö´íÎó
+    --æŠ›å‡ºé”™è¯¯
     RAISERROR(@ErrorText, @ErrorSeverity, @ErrorState);
 
     RETURN @ErrorCode;
