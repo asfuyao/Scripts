@@ -5,24 +5,24 @@
   *Author:
   *Version:      1.00
   *Date:         2019-05-20
-  *Description:  ÊäÈë±íÃûÊä³ö±í´´½¨½Å±¾
+  *Description:  è¾“å…¥è¡¨åè¾“å‡ºè¡¨åˆ›å»ºè„šæœ¬
   *Others:
   *Function List:
   *History:
 
 *******************************************************************************/
 ALTER PROCEDURE [dbo].[p_GenerateTableStructure]
-  @table_name_old sysname, --Ô´±íÃû
-  @table_name_new sysname, --ĞÂ±íÃû
-  @keep_collation BIT           = 1, --ÊÇ·ñ±£ÁôÅÅĞò¹æÔò
-  @keep_identity  BIT           = 1, --ÊÇ·ñ±£Áô×ÔÔöÉèÖÃ
-  @keep_default   BIT           = 1, --ÊÇ·ñ±£ÁôÄ¬ÈÏÖµ
+  @table_name_old sysname, --æºè¡¨å
+  @table_name_new sysname, --æ–°è¡¨å
+  @keep_collation BIT           = 1, --æ˜¯å¦ä¿ç•™æ’åºè§„åˆ™
+  @keep_identity  BIT           = 1, --æ˜¯å¦ä¿ç•™è‡ªå¢è®¾ç½®
+  @keep_default   BIT           = 1, --æ˜¯å¦ä¿ç•™é»˜è®¤å€¼
   @t_sqlstr       NVARCHAR(MAX) = N'' OUTPUT
 AS
 BEGIN
   SET NOCOUNT ON;
 
-  DECLARE @table_name sysname = 'dbo.' + @table_name_old; --±íÃû£¬°üº¬dbo
+  DECLARE @table_name sysname = 'dbo.' + @table_name_old; --è¡¨åï¼ŒåŒ…å«dbo
   DECLARE @object_name sysname;
   DECLARE @object_id INT;
 
