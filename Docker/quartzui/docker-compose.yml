@@ -1,0 +1,15 @@
+version: "2"
+services:
+  quartzui:
+    image: bennyzhao/quartzui
+    container_name: quartzui
+    restart: always
+    privileged: true
+    ports:
+      - "5088:80"      
+    volumes: 
+      - ./data:/app/File
+    networks:
+      - net-quartzui
+networks:
+  net-quartzui:      
