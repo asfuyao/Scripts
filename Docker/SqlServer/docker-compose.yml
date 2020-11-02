@@ -8,8 +8,8 @@ services:
       - SA_PASSWORD=P@ssw0rd
       - ACCEPT_EULA=Y
       - MSSQL_PID=Enterprise #设置版本为企业版，默认为Developer
-      - MSSQL_DATA_DIR=/database #修改默认数据存储路径
-      - MSSQL_BACKUP_DIR=/databak #修改默认备份路径
+      - MSSQL_DATA_DIR=/sqlserver/data #修改数据存储路径
+      - MSSQL_BACKUP_DIR=/sqlserver/bakckup #修改备份路径
       - TZ=Asia/Shanghai #设置时区
 #      - MSSQL_LCID=2052 #设置语言为中文，默认为英语
       - MSSQL_COLLATION=Chinese_PRC_CI_AS #设置默认排序规则
@@ -22,11 +22,11 @@ services:
 #       - "135:135"
 #       - "51000:51000
     volumes: 
-       - ./database:/database
-       - ./database/system:/var/opt/mssql/data
-       - ./databak:/databak
-       - ./log:/var/opt/mssql/log
-       - ./secrets:/var/opt/mssql/secrets
+       - ./sqlserver/data:/sqlserver/data
+       - ./sqlserver/data/system:/var/opt/mssql/data
+       - ./sqlserver/backup:/sqlserver/bakckup
+       - ./sqlserver/log:/var/opt/mssql/log
+       - ./sqlserver/secrets:/var/opt/mssql/secrets
     networks:
       - net-sqlserver
       
