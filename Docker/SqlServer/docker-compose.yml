@@ -32,3 +32,11 @@ services:
       
 networks:
   net-sqlserver:
+
+# 如上配置在wsl上可以正常运行，在Linux下需要给容器非root用户访问数据文件夹授权
+# mkdir -p sqlserver/data/system
+# mkdir -p sqlserver/backup
+# mkdir -p sqlserver/log
+# mkdir -p sqlserver/secrets
+# chgrp -R 0 sqlserver
+# chmod -R g=u sqlserver
