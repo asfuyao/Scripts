@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  v2ray:
+    image: v2ray/official
+    container_name: v2ray
+    volumes:
+    - ./config.json:/etc/v2ray/config.json
+    - ./log/v2ray:/var/log/v2ray
+    expose:
+    - "8002"
+    restart: unless-stopped
+  caddy:
+    image: abiosoft/caddy
+    container_name: v2ray_caddy
+    volumes:
+    - ./Caddyfile:/etc/Caddyfile:ro
+    - ./Certs:/root/.caddy
+    - ./log/caddy:/var/log/caddy
+    environment:
+    - ACME_AGREE=true
+    ports:
+    - "443:443"
+    links:
+    - v2ray:v2ray
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: v2ray

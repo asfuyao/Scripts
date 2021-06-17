@@ -1,0 +1,27 @@
+version: "2"
+services:
+  mysql:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "P@ssw0rd"
+    volumes: 
+      - ./data:/var/lib/mysql
+    networks:
+      - net-mariadb
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mariadb
+    networks:
+      - net-mariadb
+
+networks:
+  net-mariadb:

@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  v2ray:
+    image: v2ray/official
+    container_name: v2ray
+    volumes:
+    - ./v2ray/config.json:/etc/v2ray/config.json
+    - ./log/v2ray:/var/log/v2ray
+    expose:
+    - "8002"
+    restart: unless-stopped
+  nginx:
+    image: nginx:stable-alpine
+    container_name: v2ray_nginx
+    volumes:
+      - ./v2ray:/etc/v2ray
+      - ./nginx:/etc/nginx
+      - ./wwwroot:/home/wwwroot
+      - ./log/nginx:/var/log/nginx
+    ports:
+    - "80:80"
+    - "443:443"
+    links:
+    - v2ray:v2ray
+    restart: unless-stopped
+networks:
+  default:
+    external:
+      name: v2ray

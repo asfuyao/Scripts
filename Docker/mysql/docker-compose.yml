@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+
+  mysql:
+    image: mysql
+    container_name: mysql    
+    restart: always
+    ports:
+      - 51436:3306
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_0900_ai_ci
+      --explicit_defaults_for_timestamp=true
+      --log_bin_trust_function_creators=1
+      --lower_case_table_names=1
+    volumes: 
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql
+    networks:
+      - net-mysql
+  
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+    networks:
+      - net-mysql
+      
+networks:
+  net-mysql:
