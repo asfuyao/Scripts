@@ -9,10 +9,10 @@ declare @SQLCMD nvarchar(1000);
 
 set @STime=replace(replace(replace(convert(varchar(20), getdate(), 20), '-', ''), ' ', ''), ':', '');
 
---ÔÚ´Ë´¦ÌîĞ´±¸·İÂ·¾¶
+--åœ¨æ­¤å¤„å¡«å†™å¤‡ä»½è·¯å¾„
 set @BackupPath=N'D:\databak\test\';
 
---ÔÚ´Ë´¦ÌîĞ´Òª±¸·İµÄÊı¾İÃû³Æ£¬²»ÄÜ°üº¬[]·ûºÅ
+--åœ¨æ­¤å¤„å¡«å†™è¦å¤‡ä»½çš„æ•°æ®åç§°ï¼Œä¸èƒ½åŒ…å«[]ç¬¦å·
 insert into @BackupDatabases(DataBaseName)
 values('LibraryDb'), ('LiShenEamDb');
 

@@ -1,18 +1,18 @@
 USE [master];
 GO
 
-ALTER DATABASE ���ݿ��� SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE 数据库名 SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 GO
 
-USE ���ݿ���;
+USE 数据库名;
 GO
 
-DECLARE @Collate NVARCHAR(50) = N'Latin1_General_CI_AS'; --���������
-DECLARE @table NVARCHAR(128); --ѭ��Item����
-DECLARE @column NVARCHAR(128); --ѭ��Item�ֶ���
-DECLARE @type NVARCHAR(128); --��Ӧ�ֶε����ͣ�char��nchar��varchar��nvarchar��
-DECLARE @typeLenght NVARCHAR(128); --��Ӧ���͵ĳ��ȣ�nchar��nvarchar��Ҫ����ֵ����2
-DECLARE @sql NVARCHAR(MAX); --Ҫƴ��ִ�е�sql���
+DECLARE @Collate NVARCHAR(50) = N'Latin1_General_CI_AS'; --排序规则名
+DECLARE @table NVARCHAR(128); --循环Item表名
+DECLARE @column NVARCHAR(128); --循环Item字段名
+DECLARE @type NVARCHAR(128); --对应字段的类型，char、nchar、varchar、nvarchar等
+DECLARE @typeLenght NVARCHAR(128); --对应类型的长度，nchar、nvarchar需要将数值除于2
+DECLARE @sql NVARCHAR(MAX); --要拼接执行的sql语句
 
 SET ROWCOUNT 0;
 
@@ -34,12 +34,12 @@ WHILE @@ROWCOUNT > 0
 BEGIN
   SET ROWCOUNT 0;
 
-  --ÿ�β�ѯ��һ����¼����ֵ����Ӧ������
+  --每次查询第一条记录并赋值到对应变量中
   SELECT @table = [Table], @column = [Column], @type = TypeName, @typeLenght = TypeLength
   FROM   #temp
   WHERE  mykey = 1;
 
-  --nchar��nvarchar��Ҫ����ֵ����2
+  --nchar、nvarchar需要将数值除于2
   IF CONVERT(INT, @typeLenght) > 0
  AND ( @type = 'nvarchar'
     OR @type = 'nchar' )
@@ -52,15 +52,15 @@ BEGIN
     SET @typeLenght = N'max';
   END;
 
-  --ƴ��sql��ע��������ֶ���Ҫ��[]������Group�ȹؼ���
+  --拼接sql，注意表名、字段名要带[]，避免Group等关键字
   SET @sql = N' ALTER TABLE [' + @table + N'] ALTER COLUMN [' + @column + N'] ' + @type + N'(' + @typeLenght
              + N') COLLATE ' + @Collate;
 
-  --Tryִ��
+  --Try执行
   BEGIN TRY
     EXEC( @sql );
   END TRY
-  --Catch��ѯ�쳣���
+  --Catch查询异常结果
   BEGIN CATCH
     SELECT @sql AS [ASL], ERROR_MESSAGE() AS msg;
   END CATCH;
@@ -81,5 +81,5 @@ DROP TABLE #temp;
 USE [master];
 GO
 
-ALTER DATABASE ���ݿ��� SET MULTI_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE 数据库名 SET MULTI_USER WITH ROLLBACK IMMEDIATE;
 GO
