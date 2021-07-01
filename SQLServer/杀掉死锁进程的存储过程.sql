@@ -9,7 +9,7 @@ if exists ( select *
 go
 
 create proc p_killspid
-  @dbname varchar(200) --要关闭进程的数据库名 
+  @dbname varchar(200) --瑕佸叧闂繘绋嬬殑鏁版嵁搴撳悕 
 as
 declare @sql nvarchar(500);
 declare @spid nvarchar(20);

@@ -1,12 +1,12 @@
---Éú³É¸÷¹¤³§31ÌìµÄÊı¾İĞĞ
+--ç”Ÿæˆå„å·¥å‚31å¤©çš„æ•°æ®è¡Œ
 with
 temp_area as
 (
-  select N'ÆóÒµ1' Enterprise, N'¹¤³§1' Plant
+  select N'ä¼ä¸š1' Enterprise, N'å·¥å‚1' Plant
   union
-  select N'ÆóÒµ2' Enterprise, N'¹¤³§2' Plant
+  select N'ä¼ä¸š2' Enterprise, N'å·¥å‚2' Plant
   union
-  select N'ÆóÒµ3' Enterprise, N'¹¤³§3' Plant
+  select N'ä¼ä¸š3' Enterprise, N'å·¥å‚3' Plant
 ),
 PIVOT_Table as
 (
