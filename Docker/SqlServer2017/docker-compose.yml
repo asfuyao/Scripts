@@ -1,0 +1,34 @@
+version: "2"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sqlserver
+    restart: always
+    environment:
+      - SA_PASSWORD=P@ssw0rd
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Enterprise #设置版本为企业版，默认为Developer
+      - MSSQL_DATA_DIR=/sqlserver/data #修改数据存储路径
+      - MSSQL_BACKUP_DIR=/sqlserver/bakckup #修改备份路径
+      - TZ=Asia/Shanghai #设置时区
+#      - MSSQL_LCID=2052 #设置语言为中文，默认为英语
+      - MSSQL_COLLATION=Chinese_PRC_CI_AS #设置默认排序规则
+      - MSSQL_AGENT_ENABLED=True #开启agent
+#      - MSSQL_RPC_PORT=135
+#      - MSSQL_DTC_TCP_PORT=51000
+    hostname: sqlserver #设置服务器名称
+    ports:
+       - "1433:1433"
+#       - "135:135"
+#       - "51000:51000
+    volumes: 
+       - ./sqlserver/data:/sqlserver/data
+       - ./sqlserver/data/system:/var/opt/mssql/data
+       - ./sqlserver/backup:/sqlserver/bakckup
+       - ./sqlserver/log:/var/opt/mssql/log
+       - ./sqlserver/secrets:/var/opt/mssql/secrets
+    networks:
+      - net-sqlserver
+      
+networks:
+  net-sqlserver:
