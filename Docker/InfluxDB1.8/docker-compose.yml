@@ -1,0 +1,21 @@
+version: '2'
+services:
+  #服务名称
+  influxdb:
+    #容器名称
+    container_name: influxdb
+    #镜像名称
+    image: influxdb:1.8
+    #总是重启后启动
+    restart: always
+    #端口映射
+    ports:
+      - 8086:8086
+    #挂载
+    volumes:
+      - ./db/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+      - ./db:/influxdb
+    networks:
+      - net-influxdb
+networks:
+  net-influxdb:
