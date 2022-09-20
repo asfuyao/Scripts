@@ -1,0 +1,16 @@
+version: "2.1"
+services:
+  svn-server:
+    image: mamohr/subversion-edge
+    container_name: svn-server
+    volumes:
+      - ./svn-data:/opt/csvn/data
+    ports:
+#      - 3343:3343
+      - 4434:4434
+      - 8883:8883
+    restart: unless-stopped
+    networks:
+      - svn-server
+networks:
+  svn-server:

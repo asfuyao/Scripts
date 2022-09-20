@@ -1,0 +1,17 @@
+version: "2.1"
+services:
+  zentao:
+    image: easysoft/zentao
+    container_name: zentao
+    volumes:
+      - ./zentaopms:/www/zentaopms
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 8081:80
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd
+    restart: unless-stopped
+    networks:
+      - net-zentao
+networks:
+  net-zentao:

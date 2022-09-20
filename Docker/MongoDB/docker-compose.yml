@@ -1,0 +1,16 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=P@ssw0rd
+    volumes:
+      - ./data/db:/data/db
+      - ./data/log:/var/log/mongodb
+    ports:
+      - "27017:27017"
+    command: mongod --auth --logpath /var/log/mongodb/mongod.log --logappend
