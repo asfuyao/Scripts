@@ -1,0 +1,13 @@
+# Use the latest SQL Server 2019 on Linux image
+FROM mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04
+
+# Set the SA password and other environment variables
+ENV ACCEPT_EULA=Y
+ENV MSSQL_SA_PASSWORD=P@ssw0rd
+ENV MSSQL_PID=Enterprise
+ENV TZ=Asia/Shanghai
+ENV MSSQL_LCID=2052
+ENV MSSQL_COLLATION=Chinese_PRC_CI_AS
+ENV MSSQL_AGENT_ENABLED=True
+ENV MSSQL_DATA_DIR=/sqlserver/data
+ENV MSSQL_BACKUP_DIR=/sqlserver/bakckup
